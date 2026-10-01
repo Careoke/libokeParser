@@ -1,0 +1,52 @@
+[gameliboke]
+! ^ we start with this 
+! this is a comment for liboke
+! any thing wirtten here will be ignored by the parser
+
+[settings] \0\
+! ^ these are section, unknow section will be ignored
+! section starts with \0\ and ends with \1\
+! parameter - value
+        master_sound - 100
+        background_sound - 100
+        background_color - FF0000
+! colors as values will be in hex
+        default_config - =0=
+! =0= means it's NULL/0 in this case deafult config file is null means the game will use the default address
+! as now we don't have any settings pannel so we can just leave it empty
+\1\
+
+[cards] \0\
+! cards section will hold the values for the libraies, 
+! basically we will start the card with (card) then /0I or Init and end with /0K or OK
+! as you can guess  means next line then-
+!       <n> when <> it means it's parts of listing this thing is not exclusive for card in future we may use it for later cases and n can be any number
+!       "Card Name"
+!       "Lenght of the music"
+!       "Score" =0= means there is no score or the game haven't been played
+!       "file path of the music" REQUIRED
+!       "file path of the lrc" REQUIRED
+!       "file path to the song with lyrics" NOT REQUIRED
+
+        (card) /0I
+            <1>
+            I Thought I saw your face today
+            170
+            =0=
+            D:/Musics/My/Dir/I Thought I saw your face today vocals.mp3
+            D:/Lyrics/My/Dir/I Thought I saw your face today.lrc
+            D:/Musics/My/Dir/I Thought I saw your face today.mp3
+            /0K
+        (card) /0I
+            <2>
+            Shape of you
+            170
+            =0=
+            D:/Musics/My/Dir/Shape of you vocals.mp3
+            D:/Lyrics/My/Dir/Shape of you.lrc
+            D:/Musics/My/Dir/Shape of you.mp3
+            /0K
+\1\
+! finish the config with [DONE]
+! after done it won't read anymore lines
+[DONE]
