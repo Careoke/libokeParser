@@ -18,7 +18,6 @@ typedef struct Settings
 
 typedef struct
 {
-    int index;
     char *name;
     float length;
     float score;

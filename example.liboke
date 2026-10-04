@@ -20,7 +20,6 @@
 ! cards section will hold the values for the libraies, 
 ! basically we will start the card with (card) then /0I or Init and end with /0K or OK
 ! as you can guess  means next line then-
-!       <n> when <> it means it's parts of listing this thing is not exclusive for card in future we may use it for later cases and n can be any number
 !       "Card Name"
 !       "Lenght of the music"
 !       "Score" =0= means there is no score or the game haven't been played
@@ -29,7 +28,6 @@
 !       "file path to the song with lyrics" NOT REQUIRED
 
         (card) /0I
-            <1>
             I Thought I saw your face today
             170
             =0=
@@ -38,7 +36,6 @@
             D:/Musics/My/Dir/I Thought I saw your face today.mp3
             /0K
         (card) /0I
-            <2>
             Shape of you
             170
             =0=

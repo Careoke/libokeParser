@@ -14,7 +14,6 @@ int main()
     {
         printf("Card %d:\n", i);
 
-        printf("Index:       %d\n", cards.card[i].index);
         printf("Name:       %s\n", cards.card[i].name);
         printf("Length:     %.2f\n", cards.card[i].length);
         printf("Score:      %.2f\n", cards.card[i].score);

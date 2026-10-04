@@ -108,12 +108,6 @@ int ReadOKEData(char *dir, Deck *cards, Settings *sets)
                 free(Line);
 
                 Line = ReadFileStream(f, 1);
-                int in;
-                if (sscanf(Line, "<%d>", &in) == 1)
-                    cards->card[index].index = in;
-                free(Line);
-
-                Line = ReadFileStream(f, 1);
                 cards->card[index].name = malloc(strlen(Line) + 1);
                 strcpy(cards->card[index].name, Line);
                 free(Line);
