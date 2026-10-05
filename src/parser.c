@@ -45,8 +45,9 @@ int ReadOKEData(char *dir, Deck *cards, Settings *sets)
         return 1;
     int index = 0;
     char *Line;
-    char key[64];
-    char value[64];
+    char *key = {0};
+    char *value = {0};
+    char *separator = {0};
     char *Signature = ReadFileStream(f, 1);
     if (strcmp(Signature, FILE_SIGNATURE) != 0)
     {
@@ -77,11 +78,18 @@ int ReadOKEData(char *dir, Deck *cards, Settings *sets)
                     Line = ReadFileStream(f, 1);
                     if (!Line)
                         break;
+                    if (Line[0] == '!')
+                        continue;
                     if (strcmp(Line, "\\1\\") == 0)
                         break;
+
                     // key - value
-                    if (sscanf(Line, "%63s - %63s", key, value) == 2)
+                    separator = strstr(Line, " - ");
+                    if (separator)
                     {
+                        *separator = '\0';
+                        key = Line;
+                        value = separator + 3;
                         if (strcmp(key, "master_sound") == 0)
                             sets->master_sound = strtof(value, NULL);
                         else if (strcmp(key, "background_sound") == 0)
