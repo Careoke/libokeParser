@@ -42,7 +42,10 @@ int ReadOKEData(char *dir, Deck *cards, Settings *sets)
 {
     FILE *f = fopen(dir, "r");
     if (!f)
+    {
+        perror("fopen");
         return 1;
+    }
     int index = 0;
     char *Line;
     char *key = {0};
@@ -162,5 +165,153 @@ int ReadOKEData(char *dir, Deck *cards, Settings *sets)
         }
     }
     fclose(f);
+    return 0;
+}
+
+int SetSettingData(char *dir, SettingType type, char *val)
+{
+    FILE *f = fopen(dir, "r");
+    FILE *f2 = fopen("tmp.liboke", "w");
+
+    char *key = {0};
+    char *value = {0};
+    char *Line = {0};
+    char *door = {0};
+    char *target = {0};
+    char *separator = {0};
+    switch (type)
+    {
+    case MASTER_SOUND:
+        target = malloc(strlen("master_sound") + 1);
+        strcpy(target, "master_sound");
+        break;
+    case BACKGROUND_SOUND:
+        target = malloc(strlen("background_sound") + 1);
+        strcpy(target, "background_sound");
+        break;
+    case BACKGROUND_COLOR:
+        target = malloc(strlen("background_color") + 1);
+        strcpy(target, "background_color");
+        break;
+    case DEFAULT_CONFIG:
+        target = malloc(strlen("default_config") + 1);
+        strcpy(target, "default_config");
+        break;
+    }
+
+    for (;;)
+    {
+        Line = ReadFileStream(f, 0);
+
+        if (!Line)
+            break;
+
+        if (Line[0] == '!')
+        {
+            fprintf(f2, "%s\n", Line);
+            free(Line);
+            continue;
+        }
+
+        if (strncmp(Line, "[settings]", 10) == 0)
+        {
+            fprintf(f2, "%s\n", Line);
+
+            for (;;)
+            {
+                free(Line);
+                Line = ReadFileStream(f, 0);
+
+                if (!Line)
+                    break;
+                if (strcmp(Line, "\\1\\") == 0)
+                {
+                    fprintf(f2, "%s\n", Line);
+                    break;
+                }
+
+                if (Line[0] == '!')
+                {
+                    fprintf(f2, "%s\n", Line);
+                    continue;
+                }
+
+                char *tmpLine = malloc(strlen(Line) + 1);
+                strcpy(tmpLine, Line);
+                for (;;)
+                {
+                    if (*tmpLine != ' ' && *tmpLine != '\t')
+                        break;
+                    memmove(tmpLine, tmpLine + 1, strlen(tmpLine));
+                }
+
+                separator = strstr(tmpLine, " - ");
+                if (separator)
+                {
+                    *separator = '\0';
+                    key = tmpLine;
+                    value = separator + 3;
+
+                    if (strcmp(key, target) == 0)
+                    {
+                        switch (type)
+                        {
+                        case MASTER_SOUND:
+                        {
+                            float sound = strtof(val, NULL);
+                            door = malloc(snprintf(NULL, 0, "        master_sound - %.2f\n", sound) + 1);
+                            sprintf(door, "        master_sound - %.2f\n", sound);
+                            break;
+                        }
+                        case BACKGROUND_SOUND:
+                        {
+                            float sound = strtof(val, NULL);
+                            door = malloc(snprintf(NULL, 0, "        background_sound - %.2f\n", sound) + 1);
+                            sprintf(door, "        background_sound - %.2f\n", sound);
+                            break;
+                        }
+                        case BACKGROUND_COLOR:
+                        {
+                            unsigned int color = strtoul(val, NULL, 16);
+                            door = malloc(snprintf(NULL, 0, "        background_color - %x\n", color) + 1);
+                            sprintf(door, "        background_color - %x\n", color);
+                            break;
+                        }
+                        case DEFAULT_CONFIG:
+                        {
+                            door = malloc(snprintf(NULL, 0, "        default_config - %s\n", val) + 1);
+                            sprintf(door, "        default_config - %s\n", val);
+                            break;
+                        }
+                        }
+                        fprintf(f2, "%s", door);
+                        free(door);
+                    }
+                    else
+                        fprintf(f2, "%s\n", Line);
+                    free(tmpLine);
+                }
+                else
+                {
+                    fprintf(f2, "%s\n", Line);
+                }
+            }
+        }
+        else
+        {
+            fprintf(f2, "%s\n", Line);
+        }
+
+        free(Line);
+    }
+
+    free(target);
+    fclose(f);
+    fclose(f2);
+    if (remove(dir) != 0)
+        perror("remove");
+
+    if (rename("tmp.liboke", dir) != 0)
+        perror("rename");
     return 0;
 }

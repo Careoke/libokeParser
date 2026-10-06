@@ -32,5 +32,24 @@ int main()
         printf("Default Config:    NULL\n");
     else
         printf("Default Config:    %s\n", sett.default_config);
+
+    printf("changing settings values\n");
+    SetSettingData(EXAMPLE, MASTER_SOUND, "10");
+    SetSettingData(EXAMPLE, BACKGROUND_SOUND, "10");
+    SetSettingData(EXAMPLE, BACKGROUND_COLOR, "FFFFFF");
+    SetSettingData(EXAMPLE, DEFAULT_CONFIG, "./am/a/liboke.liboke");
+    ReadOKEData(EXAMPLE, &cards, &sett);
+
+    printf("Master Sound:      %.2f\n", sett.master_sound);
+
+    printf("Master Sound:      %.2f\n", sett.master_sound);
+    printf("Background Sound:  %.2f\n", sett.background_sound);
+    printf("Background Color:  #%06X\n", sett.background_color);
+
+    if (sett.default_config == NULL)
+        printf("Default Config:    NULL\n");
+    else
+        printf("Default Config:    %s\n", sett.default_config);
+
     return 0;
 }

@@ -32,8 +32,17 @@ typedef struct Deck
     int count;
 } Deck;
 
+typedef enum SettingType
+{
+    MASTER_SOUND = 0,
+    BACKGROUND_SOUND,
+    BACKGROUND_COLOR,
+    DEFAULT_CONFIG,
+} SettingType;
+
 char *ReadFileStream(FILE *f, int spacing);
 
 int ReadOKEData(char *dir, Deck *cards, Settings *sets);
+int SetSettingData(char *dir, SettingType type, char *val);
 
 #endif // !PARSER_H
