@@ -51,5 +51,32 @@ int main()
     else
         printf("Default Config:    %s\n", sett.default_config);
 
+    SetCardData(EXAMPLE, TITLE, 1, "I Think I saw your face today");
+    SetCardData(EXAMPLE, SCORE, 1, "75");
+    SetCardData(EXAMPLE, LRC_PATH, 1, "./lyrics/I Think I saw your face today.lrc");
+    SetCardData(EXAMPLE, MP3_PATH, 1, "./music/I Think I saw your face today vocals.mp3");
+
+    SetCardData(EXAMPLE, TITLE, 2, "Shapeless you");
+    SetCardData(EXAMPLE, SCORE, 2, "92");
+    SetCardData(EXAMPLE, LRC_PATH, 2, "./idk/this/is/example/iguess.lrc");
+    SetCardData(EXAMPLE, MP3_PATH, 2, "./music/shapeless you.mp3");
+
+    ReadOKEData(EXAMPLE, &cards, &sett);
+
+    printf("card amount: %d\n", cards.count);
+    for (int i = 0; i < cards.count; i++)
+    {
+        printf("Card %d:\n", i);
+
+        printf("Name:       %s\n", cards.card[i].name);
+        printf("Length:     %.2f\n", cards.card[i].length);
+        printf("Score:      %.2f\n", cards.card[i].score);
+        printf("Music Path: %s\n", cards.card[i].musicPath);
+        printf("LRC Path:   %s\n", cards.card[i].lrcPath);
+        printf("Song Path:  %s\n", cards.card[i].songPath);
+
+        printf("\n");
+    }
+
     return 0;
 }

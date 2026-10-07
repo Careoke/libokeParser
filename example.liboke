@@ -28,20 +28,20 @@
 !       "file path to the song with lyrics" NOT REQUIRED
 
         (card) /0I
-            I Thought I saw your face today
+            I Think I saw your face today
             170
-            =0=
+            75
             D:/Musics/My/Dir/I Thought I saw your face today vocals.mp3
-            D:/Lyrics/My/Dir/I Thought I saw your face today.lrc
-            D:/Musics/My/Dir/I Thought I saw your face today.mp3
+            ./lyrics/I Think I saw your face today.lrc
+            ./music/I Think I saw your face today vocals.mp3
             /0K
         (card) /0I
-            Shape of you
+            Shapeless you
             170
-            =0=
+            92
             D:/Musics/My/Dir/Shape of you vocals.mp3
-            D:/Lyrics/My/Dir/Shape of you.lrc
-            D:/Musics/My/Dir/Shape of you.mp3
+            ./idk/this/is/example/iguess.lrc
+            ./music/shapeless you.mp3
             /0K
 \1\
 ! finish the config with [DONE]

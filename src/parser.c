@@ -92,7 +92,7 @@ int ReadOKEData(char *dir, Deck *cards, Settings *sets)
                     {
                         *separator = '\0';
                         key = Line;
-                        value = separator + 3;
+                        value = separator + 3; // now that i think the value doeses nothing -,-
                         if (strcmp(key, "master_sound") == 0)
                             sets->master_sound = strtof(value, NULL);
                         else if (strcmp(key, "background_sound") == 0)
@@ -313,5 +313,141 @@ int SetSettingData(char *dir, SettingType type, char *val)
 
     if (rename("tmp.liboke", dir) != 0)
         perror("rename");
+    return 0;
+}
+
+int SetCardData(char *dir, Cardtype type, int cardIndex, char *val)
+{
+    FILE *f = fopen(dir, "r");
+    FILE *f2 = fopen("tmp.liboke", "w");
+
+    char *Line = {0};
+    int index = 0;
+    int call = 0;
+    switch (type)
+    {
+    case TITLE:
+        call = 0;
+        break;
+
+    case LENGTH:
+        call = 1;
+        break;
+
+    case SCORE:
+        call = 2;
+        break;
+
+    case VOCAL_PATH:
+        call = 3;
+        break;
+
+    case LRC_PATH:
+        call = 4;
+        break;
+
+    case MP3_PATH:
+        call = 5;
+        break;
+    }
+
+    for (;;)
+    {
+        Line = ReadFileStream(f, 0);
+
+        if (!Line)
+            break;
+
+        if (Line[0] == '!')
+        {
+            fprintf(f2, "%s\n", Line);
+            free(Line);
+            continue;
+        }
+
+        if (strncmp(Line, "[cards]", 7) == 0)
+        {
+            fprintf(f2, "%s\n", Line);
+            free(Line);
+
+            for (;;)
+            {
+                Line = ReadFileStream(f, 0);
+
+                if (!Line)
+                    break;
+                if (strcmp(Line, "\\1\\") == 0)
+                {
+                    fprintf(f2, "%s\n", Line);
+                    free(Line);
+                    break;
+                }
+                if (Line[0] == '!')
+                {
+                    fprintf(f2, "%s\n", Line);
+                    free(Line);
+                    continue;
+                }
+
+                char *tmpLine = malloc(strlen(Line) + 1);
+                strcpy(tmpLine, Line);
+                for (;;)
+                {
+                    if (*tmpLine != ' ' && *tmpLine != '\t')
+                        break;
+
+                    memmove(tmpLine, tmpLine + 1, strlen(tmpLine));
+                }
+
+                if (strncmp(tmpLine, "(card)", 6) == 0)
+                {
+                    index++;
+                    if (index == cardIndex)
+                    {
+                        fprintf(f2, "%s\n", Line);
+                        free(Line);
+                        for (int i = 0; i < call; i++)
+                        {
+                            Line = ReadFileStream(f, 0);
+
+                            if (!Line)
+                                break;
+
+                            fprintf(f2, "%s\n", Line);
+                            free(Line);
+                        }
+                        Line = ReadFileStream(f, 0);
+                        free(Line);
+                        fprintf(f2, "            %s\n", val);
+                    }
+                    else
+                    {
+                        fprintf(f2, "%s\n", Line);
+                        free(Line);
+                    }
+                }
+                else
+                {
+                    fprintf(f2, "%s\n", Line);
+                    free(Line);
+                }
+                free(tmpLine);
+            }
+            continue;
+        }
+
+        fprintf(f2, "%s\n", Line);
+        free(Line);
+    }
+
+    fclose(f);
+    fclose(f2);
+
+    if (remove(dir) != 0)
+        perror("remove");
+
+    if (rename("tmp.liboke", dir) != 0)
+        perror("rename");
+
     return 0;
 }

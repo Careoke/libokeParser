@@ -40,9 +40,20 @@ typedef enum SettingType
     DEFAULT_CONFIG,
 } SettingType;
 
+typedef enum Cardtype
+{
+    TITLE = 0,
+    LENGTH,
+    SCORE,
+    VOCAL_PATH,
+    MP3_PATH,
+    LRC_PATH,
+} Cardtype;
+
 char *ReadFileStream(FILE *f, int spacing);
 
 int ReadOKEData(char *dir, Deck *cards, Settings *sets);
 int SetSettingData(char *dir, SettingType type, char *val);
+int SetCardData(char *dir, Cardtype type, int cardIndex, char *val);
 
 #endif // !PARSER_H
