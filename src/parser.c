@@ -181,19 +181,19 @@ int SetSettingData(char *dir, SettingType type, char *val)
     char *separator = {0};
     switch (type)
     {
-    case MASTER_SOUND:
+    case SETTING_MASTER_SOUND:
         target = malloc(strlen("master_sound") + 1);
         strcpy(target, "master_sound");
         break;
-    case BACKGROUND_SOUND:
+    case SETTING_BACKGROUND_SOUND:
         target = malloc(strlen("background_sound") + 1);
         strcpy(target, "background_sound");
         break;
-    case BACKGROUND_COLOR:
+    case SETTING_BACKGROUND_COLOR:
         target = malloc(strlen("background_color") + 1);
         strcpy(target, "background_color");
         break;
-    case DEFAULT_CONFIG:
+    case SETTING_DEFAULT_CONFIG:
         target = malloc(strlen("default_config") + 1);
         strcpy(target, "default_config");
         break;
@@ -326,27 +326,27 @@ int SetCardData(char *dir, Cardtype type, int cardIndex, char *val)
     int call = 0;
     switch (type)
     {
-    case TITLE:
+    case CARD_TITLE:
         call = 0;
         break;
 
-    case LENGTH:
+    case CARD_LENGTH:
         call = 1;
         break;
 
-    case SCORE:
+    case CARD_SCORE:
         call = 2;
         break;
 
-    case VOCAL_PATH:
+    case CARD_VOCAL_PATH:
         call = 3;
         break;
 
-    case LRC_PATH:
+    case CARD_LRC_PATH:
         call = 4;
         break;
 
-    case MP3_PATH:
+    case CARD_MP3_PATH:
         call = 5;
         break;
     }

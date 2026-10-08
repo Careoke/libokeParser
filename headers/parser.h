@@ -34,20 +34,20 @@ typedef struct Deck
 
 typedef enum SettingType
 {
-    MASTER_SOUND = 0,
-    BACKGROUND_SOUND,
-    BACKGROUND_COLOR,
-    DEFAULT_CONFIG,
+    SETTING_MASTER_SOUND = 0,
+    SETTING_BACKGROUND_SOUND,
+    SETTING_BACKGROUND_COLOR,
+    SETTING_DEFAULT_CONFIG,
 } SettingType;
 
 typedef enum Cardtype
 {
-    TITLE = 0,
-    LENGTH,
-    SCORE,
-    VOCAL_PATH,
-    MP3_PATH,
-    LRC_PATH,
+    CARD_TITLE = 0,
+    CARD_LENGTH,
+    CARD_SCORE,
+    CARD_VOCAL_PATH,
+    CARD_MP3_PATH,
+    CARD_LRC_PATH,
 } Cardtype;
 
 char *ReadFileStream(FILE *f, int spacing);

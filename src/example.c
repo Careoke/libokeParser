@@ -34,10 +34,10 @@ int main()
         printf("Default Config:    %s\n", sett.default_config);
 
     printf("changing settings values\n");
-    SetSettingData(EXAMPLE, MASTER_SOUND, "10");
-    SetSettingData(EXAMPLE, BACKGROUND_SOUND, "10");
-    SetSettingData(EXAMPLE, BACKGROUND_COLOR, "FFFFFF");
-    SetSettingData(EXAMPLE, DEFAULT_CONFIG, "./am/a/liboke.liboke");
+    SetSettingData(EXAMPLE, SETTING_MASTER_SOUND, "10");
+    SetSettingData(EXAMPLE, SETTING_BACKGROUND_SOUND, "10");
+    SetSettingData(EXAMPLE, SETTING_BACKGROUND_COLOR, "FFFFFF");
+    SetSettingData(EXAMPLE, SETTING_DEFAULT_CONFIG, "./am/a/liboke.liboke");
     ReadOKEData(EXAMPLE, &cards, &sett);
 
     printf("Master Sound:      %.2f\n", sett.master_sound);
@@ -51,15 +51,15 @@ int main()
     else
         printf("Default Config:    %s\n", sett.default_config);
 
-    SetCardData(EXAMPLE, TITLE, 1, "I Think I saw your face today");
-    SetCardData(EXAMPLE, SCORE, 1, "75");
-    SetCardData(EXAMPLE, LRC_PATH, 1, "./lyrics/I Think I saw your face today.lrc");
-    SetCardData(EXAMPLE, MP3_PATH, 1, "./music/I Think I saw your face today vocals.mp3");
+    SetCardData(EXAMPLE, CARD_TITLE, 1, "I Think I saw your face today");
+    SetCardData(EXAMPLE, CARD_SCORE, 1, "75");
+    SetCardData(EXAMPLE, CARD_LRC_PATH, 1, "./lyrics/I Think I saw your face today.lrc");
+    SetCardData(EXAMPLE, CARD_MP3_PATH, 1, "./music/I Think I saw your face today vocals.mp3");
 
-    SetCardData(EXAMPLE, TITLE, 2, "Shapeless you");
-    SetCardData(EXAMPLE, SCORE, 2, "92");
-    SetCardData(EXAMPLE, LRC_PATH, 2, "./idk/this/is/example/iguess.lrc");
-    SetCardData(EXAMPLE, MP3_PATH, 2, "./music/shapeless you.mp3");
+    SetCardData(EXAMPLE, CARD_TITLE, 2, "Shapeless you");
+    SetCardData(EXAMPLE, CARD_SCORE, 2, "92");
+    SetCardData(EXAMPLE, CARD_LRC_PATH, 2, "./idk/this/is/example/iguess.lrc");
+    SetCardData(EXAMPLE, CARD_MP3_PATH, 2, "./music/shapeless you.mp3");
 
     ReadOKEData(EXAMPLE, &cards, &sett);
 
