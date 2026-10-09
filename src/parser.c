@@ -256,28 +256,28 @@ int SetSettingData(char *dir, SettingType type, char *val)
                     {
                         switch (type)
                         {
-                        case MASTER_SOUND:
+                        case SETTING_MASTER_SOUND:
                         {
                             float sound = strtof(val, NULL);
                             door = malloc(snprintf(NULL, 0, "        master_sound - %.2f\n", sound) + 1);
                             sprintf(door, "        master_sound - %.2f\n", sound);
                             break;
                         }
-                        case BACKGROUND_SOUND:
+                        case SETTING_BACKGROUND_SOUND:
                         {
                             float sound = strtof(val, NULL);
                             door = malloc(snprintf(NULL, 0, "        background_sound - %.2f\n", sound) + 1);
                             sprintf(door, "        background_sound - %.2f\n", sound);
                             break;
                         }
-                        case BACKGROUND_COLOR:
+                        case SETTING_BACKGROUND_COLOR:
                         {
                             unsigned int color = strtoul(val, NULL, 16);
                             door = malloc(snprintf(NULL, 0, "        background_color - %x\n", color) + 1);
                             sprintf(door, "        background_color - %x\n", color);
                             break;
                         }
-                        case DEFAULT_CONFIG:
+                        case SETTING_DEFAULT_CONFIG:
                         {
                             door = malloc(snprintf(NULL, 0, "        default_config - %s\n", val) + 1);
                             sprintf(door, "        default_config - %s\n", val);
@@ -432,6 +432,91 @@ int SetCardData(char *dir, Cardtype type, int cardIndex, char *val)
                     free(Line);
                 }
                 free(tmpLine);
+            }
+            continue;
+        }
+
+        fprintf(f2, "%s\n", Line);
+        free(Line);
+    }
+
+    fclose(f);
+    fclose(f2);
+
+    if (remove(dir) != 0)
+        perror("remove");
+
+    if (rename("tmp.liboke", dir) != 0)
+        perror("rename");
+
+    return 0;
+}
+
+int AddNewCard(char *dir, MusicTrack NewCard)
+{
+    FILE *f = fopen(dir, "r");
+    FILE *f2 = fopen("tmp.liboke", "w");
+    char *Line = {0};
+    int index = 0;
+
+    for (;;)
+    {
+        Line = ReadFileStream(f, 0);
+
+        if (!Line)
+            break;
+
+        if (Line[0] == '!')
+        {
+            fprintf(f2, "%s\n", Line);
+            free(Line);
+            continue;
+        }
+
+        if (strncmp(Line, "[cards]", 7) == 0)
+        {
+            fprintf(f2, "%s\n", Line);
+            free(Line);
+
+            for (;;)
+            {
+                Line = ReadFileStream(f, 0);
+
+                if (!Line)
+                    break;
+                if (Line[0] == '!')
+                {
+                    fprintf(f2, "%s\n", Line);
+                    free(Line);
+                    continue;
+                }
+
+                if (strcmp(Line, "\\1\\") == 0)
+                {
+                    fprintf(f2, "        (card) /0I\n");
+                    fprintf(f2, "            %s\n", NewCard.name);
+                    fprintf(f2, "            %.2f\n", NewCard.length);
+                    if (strcmp(Line, ZERO) == 0)
+                        fprintf(f2, "            %s\n", ZERO);
+                    else
+                        fprintf(f2, "            %.2f\n", NewCard.score);
+                    fprintf(f2, "            %s\n", NewCard.musicPath);
+                    fprintf(f2, "            %s\n", NewCard.lrcPath);
+                    if (strcmp(Line, ZERO) == 0)
+                        fprintf(f2, "            %s\n", ZERO);
+                    else
+                        fprintf(f2, "            %s\n", NewCard.songPath);
+                    fprintf(f2, "            /0K\n");
+
+                    fprintf(f2, "%s\n", Line);
+                    free(Line);
+                    break;
+                }
+                else
+                {
+                    fprintf(f2, "%s\n", Line);
+                    free(Line);
+                }
             }
             continue;
         }

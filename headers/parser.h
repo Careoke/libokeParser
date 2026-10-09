@@ -55,5 +55,6 @@ char *ReadFileStream(FILE *f, int spacing);
 int ReadOKEData(char *dir, Deck *cards, Settings *sets);
 int SetSettingData(char *dir, SettingType type, char *val);
 int SetCardData(char *dir, Cardtype type, int cardIndex, char *val);
+int AddNewCard(char *dir, MusicTrack NewCard);
 
 #endif // !PARSER_H

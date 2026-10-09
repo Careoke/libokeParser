@@ -78,5 +78,32 @@ int main()
         printf("\n");
     }
 
+    MusicTrack testCard = {
+        .name = "As It was",
+        .length = 165,
+        .score = 75,
+        .lrcPath = "D:/Musics/My/Dir/",
+        .musicPath = "D:/Musics/My/Dir/",
+        .songPath = "D:/Musics/My/Dir/"};
+
+    AddNewCard(EXAMPLE, testCard);
+
+    ReadOKEData(EXAMPLE, &cards, &sett);
+
+    printf("card amount: %d\n", cards.count);
+    for (int i = 0; i < cards.count; i++)
+    {
+        printf("Card %d:\n", i);
+
+        printf("Name:       %s\n", cards.card[i].name);
+        printf("Length:     %.2f\n", cards.card[i].length);
+        printf("Score:      %.2f\n", cards.card[i].score);
+        printf("Music Path: %s\n", cards.card[i].musicPath);
+        printf("LRC Path:   %s\n", cards.card[i].lrcPath);
+        printf("Song Path:  %s\n", cards.card[i].songPath);
+
+        printf("\n");
+    }
+
     return 0;
 }
