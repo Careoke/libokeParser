@@ -124,5 +124,7 @@ int main()
         printf("\n");
     }
 
+    freeLiboke(cards, sett);
+
     return 0;
 }

@@ -1,5 +1,30 @@
 #include "../headers/parser.h"
 
+void freeCard(MusicTrack card)
+{
+    free(card.lrcPath);
+    free(card.musicPath);
+    free(card.songPath);
+    free(card.name);
+}
+
+void freeDeck(Deck deck)
+{
+    for (int i = 0; i < deck.count; i++)
+        freeCard(deck.card[i]);
+}
+
+void freeSettings(Settings sets)
+{
+    free(sets.default_config);
+}
+
+void freeLiboke(Deck deck, Settings sets)
+{
+    freeDeck(deck);
+    freeSettings(sets);
+}
+
 char *ReadFileStream(FILE *f, int spacing)
 {
     char *buffer = NULL;
