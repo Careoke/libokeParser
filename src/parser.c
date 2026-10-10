@@ -536,3 +536,102 @@ int AddNewCard(char *dir, MusicTrack NewCard)
 
     return 0;
 }
+
+int RemoveCard(char *dir, int cardIndex)
+{
+    FILE *f = fopen(dir, "r");
+    FILE *f2 = fopen("tmp.liboke", "w");
+
+    char *Line = {0};
+    int index = 0;
+    int call = 7;
+
+    for (;;)
+    {
+        Line = ReadFileStream(f, 0);
+
+        if (!Line)
+            break;
+
+        if (Line[0] == '!')
+        {
+            fprintf(f2, "%s\n", Line);
+            free(Line);
+            continue;
+        }
+
+        if (strncmp(Line, "[cards]", 7) == 0)
+        {
+            fprintf(f2, "%s\n", Line);
+            free(Line);
+            for (;;)
+            {
+                Line = ReadFileStream(f, 0);
+
+                if (!Line)
+                    break;
+                if (strcmp(Line, "\\1\\") == 0)
+                {
+                    fprintf(f2, "%s\n", Line);
+                    free(Line);
+                    break;
+                }
+                if (Line[0] == '!')
+                {
+                    fprintf(f2, "%s\n", Line);
+                    free(Line);
+                    continue;
+                }
+
+                char *tmpLine = malloc(strlen(Line) + 1);
+                strcpy(tmpLine, Line);
+                for (;;)
+                {
+                    if (*tmpLine != ' ' && *tmpLine != '\t')
+                        break;
+
+                    memmove(tmpLine, tmpLine + 1, strlen(tmpLine));
+                }
+
+                if (strncmp(tmpLine, "(card)", 6) == 0)
+                {
+                    index++;
+                    if (index == cardIndex)
+                    {
+                        free(Line);
+                        for (int i = 0; i < call; i++)
+                        {
+                            Line = ReadFileStream(f, 0);
+                            free(Line);
+                        }
+                    }
+                    else
+                    {
+                        fprintf(f2, "%s\n", Line);
+                        free(Line);
+                    }
+                }
+                else
+                {
+                    fprintf(f2, "%s\n", Line);
+                    free(Line);
+                }
+                free(tmpLine);
+            }
+            continue;
+        }
+        fprintf(f2, "%s\n", Line);
+        free(Line);
+    }
+
+    fclose(f);
+    fclose(f2);
+
+    if (remove(dir) != 0)
+        perror("remove");
+
+    if (rename("tmp.liboke", dir) != 0)
+        perror("rename");
+
+    return 0;
+}

@@ -56,5 +56,6 @@ int ReadOKEData(char *dir, Deck *cards, Settings *sets);
 int SetSettingData(char *dir, SettingType type, char *val);
 int SetCardData(char *dir, Cardtype type, int cardIndex, char *val);
 int AddNewCard(char *dir, MusicTrack NewCard);
+int RemoveCard(char *dir, int cardIndex);
 
 #endif // !PARSER_H
